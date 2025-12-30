@@ -1,0 +1,129 @@
+basePath: /
+definitions:
+  model.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Gin + GORM 项目模板
+  title: kumiko API
+  version: "1.0"
+paths:
+  /login:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 用户登录，返回JWT Token
+      parameters:
+      - description: 用户名
+        in: formData
+        name: username
+        required: true
+        type: string
+      - description: 密码
+        in: formData
+        name: password
+        required: true
+        type: string
+      responses:
+        "200":
+          description: 返回token
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 用户登录
+      tags:
+      - 认证
+  /test:
+    get:
+      description: 测试用
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 测试接口
+      tags:
+      - 测试
+  /user:
+    get:
+      description: 获取所有用户信息
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.User'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 获取用户列表
+      tags:
+      - 用户
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 创建新用户
+      parameters:
+      - description: 用户名
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: 邮箱
+        in: formData
+        name: email
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 创建用户
+      tags:
+      - 用户
+  /user/{id}:
+    get:
+      description: 通过ID获取用户
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 获取用户信息
+      tags:
+      - 用户
+swagger: "2.0"
